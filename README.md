@@ -1,7 +1,9 @@
-# my dwm autostart
+# My Dwm Autostart
 
-个人dwm启动脚本
+个人dwm启动脚本。
 
-# 安装
+# Installation
 
-`git clone git@github.com:fengwk/my-dwm-autostart.git ~/.local/share/dwm`
+```shell
+git clone git@github.com:fengwk/my-dwm-autostart.git ~/.local/share/dwm
+```
