@@ -49,5 +49,9 @@ killall fcitx5
 fcitx5 &
 
 # wxwork
-# killall wxwork
-# wxwork &
+# killall wxwork.sh
+# wxwork.sh &
+
+# birdtray
+killall birdtray
+birdtray &

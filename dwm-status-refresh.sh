@@ -73,19 +73,6 @@ get_time_until_charged() {
 	echo $pretty_time;
 }
 
-get_battery_combined_percent() {
-
-	# get charge of all batteries, combine them
-	total_charge=$(expr $(acpi -b | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc));
-
-	# get amount of batteries in the device
-	battery_number=$(acpi -b | wc -l);
-
-	percent=$(expr $total_charge / $battery_number);
-    
-    return $percent;
-}
-
 get_battery_charging_status() {
     percent=$1
 
@@ -134,23 +121,7 @@ print_vol () {
 }
 
 print_bat(){
-	#hash acpi || return 0
-	#onl="$(grep "on-line" <(acpi -V))"
-	#charge="$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/capacity)%"
-	#if test -z "$onl"
-	#then
-		## suspend when we close the lid
-		##systemctl --user stop inhibit-lid-sleep-on-battery.service
-		#echo -e "${charge}"
-	#else
-		## On mains! no need to suspend
-		##systemctl --user start inhibit-lid-sleep-on-battery.service
-		#echo -e "${charge}"
-	#fi
-	#echo "$(get_battery_charging_status) $(get_battery_combined_percent)%, $(get_time_until_charged )";
-	#echo "$(get_battery_charging_status) $(get_battery_combined_percent)%, $(get_time_until_charged )";
-    get_battery_combined_percent
-    percent=$?
+    percent=$(expr $(acpi -b | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc));
 	echo "$(get_battery_charging_status $percent) $percent%";
 }
 
