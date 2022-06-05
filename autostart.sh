@@ -62,3 +62,8 @@ fcitx5 &
 killall -q birdtray
 while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
 birdtray &
+
+# lightscreen
+# killall -q lightscreen
+# while pgrep -u $UID -x lightscreen >/dev/null; do sleep 1; done
+# lightscreen &
