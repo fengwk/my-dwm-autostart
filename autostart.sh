@@ -29,14 +29,14 @@ picom -b
 # blueman-applet &
 
 # network
-killall -q nm-applet &
-while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
-nm-applet &
+# killall -q nm-applet &
+# while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
+# nm-applet &
 
 # power
-killall -q xfce4-power-manager &
-while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
-xfce4-power-manager &
+# killall -q xfce4-power-manager &
+# while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
+# xfce4-power-manager &
 
 # volum
 # killall -q xfce4-volumed-pulse &
@@ -59,9 +59,9 @@ fcitx5 &
 # wxwork &
 
 # birdtray
-killall -q birdtray
-while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
-birdtray &
+# killall -q birdtray
+# while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
+# birdtray &
 
 # lightscreen
 # killall -q lightscreen

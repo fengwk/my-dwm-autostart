@@ -121,7 +121,7 @@ print_vol () {
 }
 
 print_bat(){
-    percent=$(expr $(acpi -b | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc));
+    percent=$(expr $(acpi -b | grep -oE "[0-9]+%" | grep -oE "[0-9]+" | paste -sd+ | bc));
 	echo "$(get_battery_charging_status $percent) $percent%";
 }
 
@@ -137,7 +137,7 @@ show_record(){
 }
 
 get_light() {
-	L=$(xbacklight -get intel_backlight)
+	L=$(printf '%.0f' "$(xbacklight -get)")
 	echo "ﯦ $L"
 }
 
