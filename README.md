@@ -8,7 +8,8 @@
 git clone git@github.com:fengwk/my-dwm-autostart.git ~/.local/share/dwm
 ```
 
-安装以来
+安装依赖：
+
 ```shell
-pacman -S acpi bc
+sudo pacman -S alsa-utils picom parcellite acpi bc fcitx5 fcitx5-chinese-addons fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-material-color
 ```

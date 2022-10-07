@@ -5,11 +5,11 @@
 # This function parses /proc/net/dev file searching for a line containing $interface data.
 # Within that line, the first and ninth numbers after ':' are respectively the received and transmited bytes.
 function get_bytes {
-	# Find active network interface
-	interface=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
-	line=$(grep $interface /proc/net/dev | cut -d ':' -f 2 | awk '{print "received_bytes="$1, "transmitted_bytes="$9}')
-	eval $line
-	now=$(date +%s%N)
+  # Find active network interface
+  interface=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
+  line=$(grep $interface /proc/net/dev | cut -d ':' -f 2 | awk '{print "received_bytes="$1, "transmitted_bytes="$9}')
+  eval $line
+  now=$(date +%s%N)
 }
 
 # Function which calculates the speed using actual and old byte number.
@@ -17,18 +17,18 @@ function get_bytes {
 # This function should be called each second.
 
 function get_velocity {
-	value=$1
-	old_value=$2
-	now=$3
+  value=$1
+  old_value=$2
+  now=$3
 
-	timediff=$(($now - $old_time))
-	velKB=$(echo "1000000000*($value-$old_value)/1024/$timediff" | bc)
-	if test "$velKB" -gt 1024
-	then
-		echo $(echo "scale=2; $velKB/1024" | bc)MB/s
-	else
-		echo ${velKB}KB/s
-	fi
+  timediff=$(($now - $old_time))
+  velKB=$(echo "1000000000*($value-$old_value)/1024/$timediff" | bc)
+  if test "$velKB" -gt 1024
+  then
+    echo $(echo "scale=2; $velKB/1024" | bc)MB/s
+  else
+    echo ${velKB}KB/s
+  fi
 }
 
 # Get initial values
@@ -38,107 +38,107 @@ old_transmitted_bytes=$transmitted_bytes
 old_time=$now
 
 print_mem(){
-    memTotal=$(grep -m1 'MemTotal:' /proc/meminfo | awk '{print $2}')
-    memAvailable=$(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}')
-    memUsed=$(expr $memTotal - $memAvailable)
-    if [ "$memUsed" -le 1024 ]; then
-        echo "$($memUsed)K";
-    elif [ "$memUsed" -gt 1024 ] && [ "$memUsed" -le 1048576 ]; then
-        echo "$(expr $memUsed / 1024)M"
-    else
-        awk -v mu=$memUsed 'BEGIN{printf "%.2fG", mu / 1024 / 1024 }'
-        #echo "$(expr $memUsed / 1024 / 1024)G"
-    fi
+  memTotal=$(grep -m1 'MemTotal:' /proc/meminfo | awk '{print $2}')
+  memAvailable=$(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}')
+  memUsed=$(expr $memTotal - $memAvailable)
+  if [ "$memUsed" -le 1024 ]; then
+    echo "$($memUsed)K";
+  elif [ "$memUsed" -gt 1024 ] && [ "$memUsed" -le 1048576 ]; then
+    echo "$(expr $memUsed / 1024)M"
+  else
+    awk -v mu=$memUsed 'BEGIN{printf "%.2fG", mu / 1024 / 1024 }'
+    #echo "$(expr $memUsed / 1024 / 1024)G"
+  fi
 }
 
 print_temp(){
-	test -f /sys/class/thermal/thermal_zone0/temp || return 0
-	echo $(head -c 2 /sys/class/thermal/thermal_zone0/temp)C
+  test -f /sys/class/thermal/thermal_zone0/temp || return 0
+  echo $(head -c 2 /sys/class/thermal/thermal_zone0/temp)C
 }
 
 get_time_until_charged() {
 
-	# parses acpitool's battery info for the remaining charge of all batteries and sums them up
-	sum_remaining_charge=$(acpitool -B | grep -E 'Remaining capacity' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
+  # parses acpitool's battery info for the remaining charge of all batteries and sums them up
+  sum_remaining_charge=$(acpitool -B | grep -E 'Remaining capacity' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
 
-	# finds the rate at which the batteries being drained at
-	present_rate=$(acpitool -B | grep -E 'Present rate' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
+  # finds the rate at which the batteries being drained at
+  present_rate=$(acpitool -B | grep -E 'Present rate' | awk '{print $4}' | grep -Eo "[0-9]+" | paste -sd+ | bc);
 
-	# divides current charge by the rate at which it's falling, then converts it into seconds for `date`
-	seconds=$(bc <<< "scale = 10; ($sum_remaining_charge / $present_rate) * 3600");
+  # divides current charge by the rate at which it's falling, then converts it into seconds for `date`
+  seconds=$(bc <<< "scale = 10; ($sum_remaining_charge / $present_rate) * 3600");
 
-	# prettifies the seconds into h:mm:ss format
-	pretty_time=$(date -u -d @${seconds} +%T);
+  # prettifies the seconds into h:mm:ss format
+  pretty_time=$(date -u -d @${seconds} +%T);
 
-	echo $pretty_time;
+  echo $pretty_time;
 }
 
 get_battery_charging_status() {
-    percent=$1
+  percent=$1
 
-	if $(acpi -b | grep --quiet Charging)
-	then
-        if [ "$percent" -le 16 ]; then
-            echo "";
-        elif [ "$percent" -gt 16 ] && [ "$percent" -le 32 ]; then
-            echo "";
-        elif [ "$percent" -gt 32 ] && [ "$percent" -le 48 ]; then
-            echo "";
-        elif [ "$percent" -gt 48 ] && [ "$percent" -le 64 ]; then
-            echo "";
-        elif [ "$percent" -gt 64 ] && [ "$percent" -le 80 ]; then
-            echo "";
-        elif [ "$percent" -gt 80 ] && [ "$percent" -le 99 ]; then
-            echo "";
-        else
-            echo "";
-        fi
-	else
-        if [ "$percent" -le 33 ]; then
-            echo "";
-        elif [ "$percent" -gt 33 ] && [ "$percent" -le 66 ]; then
-            echo "";
-        elif [ "$percent" -gt 66 ] && [ "$percent" -le 99 ]; then
-            echo "";
-        else
-            echo "";
-        fi
-	fi
+  if $(acpi -b | grep --quiet Charging)
+  then
+    if [ "$percent" -le 16 ]; then
+      echo "";
+    elif [ "$percent" -gt 16 ] && [ "$percent" -le 32 ]; then
+      echo "";
+    elif [ "$percent" -gt 32 ] && [ "$percent" -le 48 ]; then
+      echo "";
+    elif [ "$percent" -gt 48 ] && [ "$percent" -le 64 ]; then
+      echo "";
+    elif [ "$percent" -gt 64 ] && [ "$percent" -le 80 ]; then
+      echo "";
+    elif [ "$percent" -gt 80 ] && [ "$percent" -le 99 ]; then
+      echo "";
+    else
+      echo "";
+    fi
+  else
+    if [ "$percent" -le 33 ]; then
+      echo "";
+    elif [ "$percent" -gt 33 ] && [ "$percent" -le 66 ]; then
+      echo "";
+    elif [ "$percent" -gt 66 ] && [ "$percent" -le 99 ]; then
+      echo "";
+    else
+      echo "";
+    fi
+  fi
 }
 
 print_vol () {
-    ON=$(amixer get Master | tail -n1 | awk '{print $6}')
-    VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
-    if [ "$ON" = "[on]" ]; then
-        if [ "$VOL" -eq 0 ]; then
-            printf "婢 %s%%" "$VOL"
-        else
-            printf "墳 %s%%" "$VOL"
-        fi
+  ON=$(amixer get Master | tail -n1 | awk '{print $6}')
+  VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+  if [ "$ON" = "[on]" ]; then
+    if [ "$VOL" -eq 0 ]; then
+      printf "婢 %s%%" "$VOL"
     else
-        printf "婢 %s%%" "$VOL"
+      printf "墳 %s%%" "$VOL"
     fi
+  else
+    printf "婢 %s%%" "$VOL"
+  fi
 }
 
 print_bat(){
-    percent=$(expr $(acpi -b | grep -oE "[0-9]+%" | grep -oE "[0-9]+" | paste -sd+ | bc));
-	echo "$(get_battery_charging_status $percent) $percent%";
+  percent=$(expr $(acpi -b | grep -oE "[0-9]+%" | grep -oE "[0-9]+" | paste -sd+ | bc));
+  echo "$(get_battery_charging_status $percent) $percent%";
 }
 
 print_date(){
-	date '+%Y/%m/%d %H:%M'
+  date '+%Y/%m/%d %H:%M'
 }
 
 show_record(){
-	test -f /tmp/r2d2 || return
-	rp=$(cat /tmp/r2d2 | awk '{print $2}')
-	size=$(du -h $rp | awk '{print $1}')
-	echo " $size $(basename $rp)"
+  test -f /tmp/r2d2 || return
+  rp=$(cat /tmp/r2d2 | awk '{print $2}')
+  size=$(du -h $rp | awk '{print $1}')
+  echo " $size $(basename $rp)"
 }
 
 get_light() {
-	L=$(printf '%.0f' "$(xbacklight -get)")
-	echo "ﯦ $L"
+  L=$(printf '%.0f' "$(xbacklight -get)")
+  echo "ﯦ $L"
 }
 
 LOC=$(readlink -f "$0")
