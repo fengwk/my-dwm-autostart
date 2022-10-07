@@ -21,6 +21,8 @@ ${script_dir}/wp-autochange.sh &
 # window render
 killall -q picom
 while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
+# 使透明穿透到桌面：--experimental-backends --transparent-clipping
+# picom -b --experimental-backends --transparent-clipping
 picom -b
 
 # bluez
@@ -59,9 +61,15 @@ fcitx5 &
 # wxwork &
 
 # birdtray
-# killall -q birdtray
-# while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
-# birdtray &
+killall -q birdtray
+while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
+# env -u QT_AUTO_SCREEN_SCALE_FACTOR birdtray &
+birdtray &
+
+# parcellite
+killall -q parcellite
+while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
+parcellite &
 
 # lightscreen
 # killall -q lightscreen

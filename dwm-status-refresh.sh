@@ -76,18 +76,8 @@ get_time_until_charged() {
 get_battery_charging_status() {
     percent=$1
 
-	if $(acpi -b | grep --quiet Discharging)
+	if $(acpi -b | grep --quiet Charging)
 	then
-        if [ "$percent" -le 33 ]; then
-            echo "";
-        elif [ "$percent" -gt 33 ] && [ "$percent" -le 66 ]; then
-            echo "";
-        elif [ "$percent" -gt 66 ] && [ "$percent" -le 99 ]; then
-            echo "";
-        else
-            echo "";
-        fi
-	else
         if [ "$percent" -le 16 ]; then
             echo "";
         elif [ "$percent" -gt 16 ] && [ "$percent" -le 32 ]; then
@@ -102,6 +92,16 @@ get_battery_charging_status() {
             echo "";
         else
             echo "";
+        fi
+	else
+        if [ "$percent" -le 33 ]; then
+            echo "";
+        elif [ "$percent" -gt 33 ] && [ "$percent" -le 66 ]; then
+            echo "";
+        elif [ "$percent" -gt 66 ] && [ "$percent" -le 99 ]; then
+            echo "";
+        else
+            echo "";
         fi
 	fi
 }
