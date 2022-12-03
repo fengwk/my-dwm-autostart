@@ -2,11 +2,13 @@
 
 script_dir=$(dirname $(readlink -f $0))
 
+# for java application
+wmname LG3D
+
 # monitor
-# xrandr --output eDP-1-1 --mode 3480x2160
-# ${script_dir}/monitor-set.sh
-# killall monitor-detection.sh
-# ${script_dir}/monitor-detection.sh &
+killall -q ${script_dir}/monitor-detection.sh
+while pgrep -u $UID -x ${script_dir}/monitor-detection.sh >/dev/null; do sleep 1; done
+${script_dir}/monitor-detection.sh &
 
 # status bar
 killall -q dwm-status.sh
@@ -23,7 +25,8 @@ killall -q picom
 while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
 # 使透明穿透到桌面：--experimental-backends --transparent-clipping
 # picom -b --experimental-backends --transparent-clipping
-picom -b
+# picom -b
+picom --experimental-backends -b
 
 # bluez
 # killall -q blueman-applet &
@@ -35,6 +38,11 @@ picom -b
 # while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
 # nm-applet &
 
+# wpa_supplicant
+# sudo killall -q wpa_supplicant &
+# while pgrep -u $UID -x wpa_supplicant >/dev/null; do sleep 1; done
+# sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant-wlo1.conf -i wlo1 &
+
 # power
 # killall -q xfce4-power-manager &
 # while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
@@ -45,15 +53,25 @@ picom -b
 # while pgrep -u $UID -x xfce4-volumed-pulse >/dev/null; do sleep 1; done
 # xfce4-volumed-pulse &
 
-# optimus
-# killall optimus-manager-qt
-# while pgrep -u $UID -x optimus-manager-qt >/dev/null; do sleep 1; done
-# optimus-manager-qt &
-
 # fcitx5
 killall -q fcitx5
 while pgrep -u $UID -x fcitx5 >/dev/null; do sleep 1; done
 fcitx5 &
+
+# parcellite
+killall -q parcellite
+while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
+parcellite &
+
+# optimus
+killall optimus-manager-qt
+while pgrep -u $UID -x optimus-manager-qt >/dev/null; do sleep 1; done
+optimus-manager-qt &
+
+# slimbookbattery
+# killall slimbookbattery
+# while pgrep -u $UID -x slimbookbattery >/dev/null; do sleep 1; done
+# slimbookbattery &
 
 # wxwork
 # killall -q wxwork
@@ -61,15 +79,10 @@ fcitx5 &
 # wxwork &
 
 # birdtray
-killall -q birdtray
-while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
-# env -u QT_AUTO_SCREEN_SCALE_FACTOR birdtray &
-birdtray &
-
-# parcellite
-killall -q parcellite
-while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
-parcellite &
+# killall -q birdtray
+# while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
+# # env -u QT_AUTO_SCREEN_SCALE_FACTOR birdtray &
+# birdtray &
 
 # lightscreen
 # killall -q lightscreen

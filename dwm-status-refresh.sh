@@ -12,6 +12,12 @@ function get_bytes {
   now=$(date +%s%N)
 }
 
+# Get initial values
+get_bytes
+old_received_bytes=$received_bytes
+old_transmitted_bytes=$transmitted_bytes
+old_time=$now
+
 # Function which calculates the speed using actual and old byte number.
 # Speed is shown in KByte per second when greater or equal than 1 KByte per second.
 # This function should be called each second.
@@ -30,12 +36,6 @@ function get_velocity {
     echo ${velKB}KB/s
   fi
 }
-
-# Get initial values
-get_bytes
-old_received_bytes=$received_bytes
-old_transmitted_bytes=$transmitted_bytes
-old_time=$now
 
 print_mem(){
   memTotal=$(grep -m1 'MemTotal:' /proc/meminfo | awk '{print $2}')
@@ -141,19 +141,22 @@ get_light() {
   echo "ﯦ $L"
 }
 
+print_wifi(){
+  echo "直 $(wpa_cli status | grep "^ssid" | awk -F '=' '{print $2}')"
+}
+
 LOC=$(readlink -f "$0")
 DIR=$(dirname "$LOC")
 export IDENTIFIER="unicode"
 
-
+sleep 0.5
 get_bytes
 
 # Calculates speeds
 vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
 vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
-#xsetroot -name "  💿 $(print_mem)M ⬇️ $vel_recv ⬆️ $vel_trans $(dwm_alsa) [ $(print_bat) ]$(show_record) $(print_date) "
-xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) [$(print_date)] "
+xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) $(print_wifi) [$(print_date)] "
 
 # Update old values to perform new calculations
 old_received_bytes=$received_bytes
