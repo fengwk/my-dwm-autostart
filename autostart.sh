@@ -5,10 +5,20 @@ script_dir=$(dirname $(readlink -f $0))
 # for java application
 wmname LG3D
 
+# auto suspend
+# killall -q xautolock
+# while pgrep -u $UID -x xautolock >/dev/null; do sleep 1; done
+# xautolock -time 10 -locker 'systemctl suspend' -nowlocker 'systemctl suspend' -detectsleep &
+
 # monitor
-killall -q ${script_dir}/monitor-detection.sh
-while pgrep -u $UID -x ${script_dir}/monitor-detection.sh >/dev/null; do sleep 1; done
-${script_dir}/monitor-detection.sh &
+# killall -q ${script_dir}/monitor-detection.sh
+# while pgrep -u $UID -x ${script_dir}/monitor-detection.sh >/dev/null; do sleep 1; done
+# ${script_dir}/monitor-detection.sh &
+
+# polkit-gnome
+killall -q /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+while pgrep -u $UID -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null; do sleep 1; done
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # status bar
 killall -q dwm-status.sh
@@ -29,27 +39,27 @@ while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
 picom --experimental-backends -b
 
 # bluez
-# killall -q blueman-applet &
+# killall -q blueman-applet
 # while pgrep -u $UID -x blueman-applet >/dev/null; do sleep 1; done
 # blueman-applet &
 
 # network
-# killall -q nm-applet &
-# while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
-# nm-applet &
+killall -q nm-applet
+while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
+nm-applet &
 
 # wpa_supplicant
-# sudo killall -q wpa_supplicant &
+# sudo killall -q wpa_supplicant
 # while pgrep -u $UID -x wpa_supplicant >/dev/null; do sleep 1; done
 # sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant-wlo1.conf -i wlo1 &
 
 # power
-# killall -q xfce4-power-manager &
-# while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
-# xfce4-power-manager &
+killall -q xfce4-power-manager
+while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
+xfce4-power-manager &
 
 # volum
-# killall -q xfce4-volumed-pulse &
+# killall -q xfce4-volumed-pulse
 # while pgrep -u $UID -x xfce4-volumed-pulse >/dev/null; do sleep 1; done
 # xfce4-volumed-pulse &
 
@@ -64,9 +74,9 @@ while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
 parcellite &
 
 # optimus
-killall optimus-manager-qt
-while pgrep -u $UID -x optimus-manager-qt >/dev/null; do sleep 1; done
-optimus-manager-qt &
+# killall optimus-manager-qt
+# while pgrep -u $UID -x optimus-manager-qt >/dev/null; do sleep 1; done
+# optimus-manager-qt &
 
 # slimbookbattery
 # killall slimbookbattery
