@@ -15,6 +15,11 @@ wmname LG3D
 # while pgrep -u $UID -x ${script_dir}/monitor-detection.sh >/dev/null; do sleep 1; done
 # ${script_dir}/monitor-detection.sh &
 
+# fcitx5
+killall -q fcitx5
+while pgrep -u $UID -x fcitx5 >/dev/null; do sleep 1; done
+fcitx5 &
+
 # polkit-gnome
 killall -q /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 while pgrep -u $UID -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null; do sleep 1; done
@@ -63,15 +68,16 @@ xfce4-power-manager &
 # while pgrep -u $UID -x xfce4-volumed-pulse >/dev/null; do sleep 1; done
 # xfce4-volumed-pulse &
 
-# fcitx5
-killall -q fcitx5
-while pgrep -u $UID -x fcitx5 >/dev/null; do sleep 1; done
-fcitx5 &
-
 # parcellite
 killall -q parcellite
 while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
 parcellite &
+
+# clash for windows
+killall -q /opt/clash-for-windows-chinese/cfw
+while pgrep -u $UID -x /opt/clash-for-windows-chinese/cfw >/dev/null; do sleep 1; done
+sleep 2.5 # 迟启动调整托盘图标出现位置
+/opt/clash-for-windows-chinese/cfw &
 
 # optimus
 # killall optimus-manager-qt

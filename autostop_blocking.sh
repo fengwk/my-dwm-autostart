@@ -11,6 +11,9 @@ wmname LG3D
 # monitor
 #killall -q ${script_dir}/monitor-detection.sh
 
+# fcitx5
+killall -q fcitx5
+
 # polkit-gnome
 killall -q /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
@@ -38,11 +41,11 @@ killall -q xfce4-power-manager
 # volum
 # killall -q xfce4-volumed-pulse
 
-# fcitx5
-killall -q fcitx5
-
 # parcellite
 killall -q parcellite
+
+# clash for windows
+killall -q /opt/clash-for-windows-chinese/cfw
 
 # optimus
 # killall optimus-manager-qt
