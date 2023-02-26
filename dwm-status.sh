@@ -86,20 +86,54 @@ get_battery_charging_status() {
       echo "";
     elif [ "$percent" -gt 64 ] && [ "$percent" -le 80 ]; then
       echo "";
-    elif [ "$percent" -gt 80 ] && [ "$percent" -le 99 ]; then
+    elif [ "$percent" -gt 80 ] && [ "$percent" -le 96 ]; then
       echo "";
     else
       echo "";
     fi
-  else
-    if [ "$percent" -le 33 ]; then
-      echo "";
-    elif [ "$percent" -gt 33 ] && [ "$percent" -le 66 ]; then
-      echo "";
-    elif [ "$percent" -gt 66 ] && [ "$percent" -le 99 ]; then
-      echo "";
+
+    if [ "$percent" -le 15 ]; then
+      echo "󰁺";
+    elif [ "$percent" -gt 15 ] && [ "$percent" -le 25 ]; then
+      echo "󰁻";
+    elif [ "$percent" -gt 25 ] && [ "$percent" -le 35 ]; then
+      echo "󰁼";
+    elif [ "$percent" -gt 35 ] && [ "$percent" -le 45 ]; then
+      echo "󰁽";
+    elif [ "$percent" -gt 45 ] && [ "$percent" -le 55 ]; then
+      echo "󰁾";
+    elif [ "$percent" -gt 55 ] && [ "$percent" -le 65 ]; then
+      echo "󰁿";
+    elif [ "$percent" -gt 65 ] && [ "$percent" -le 75 ]; then
+      echo "󰂀";
+    elif [ "$percent" -gt 75 ] && [ "$percent" -le 85 ]; then
+      echo "󰂁";
+    elif [ "$percent" -gt 85 ] && [ "$percent" -le 96 ]; then
+      echo "󰂂";
     else
-      echo "";
+      echo "󰁹";
+    fi
+  else
+    if [ "$percent" -le 15 ]; then
+      echo "󰁺";
+    elif [ "$percent" -gt 15 ] && [ "$percent" -le 25 ]; then
+      echo "󰁻";
+    elif [ "$percent" -gt 25 ] && [ "$percent" -le 35 ]; then
+      echo "󰁼";
+    elif [ "$percent" -gt 35 ] && [ "$percent" -le 45 ]; then
+      echo "󰁽";
+    elif [ "$percent" -gt 45 ] && [ "$percent" -le 55 ]; then
+      echo "󰁾";
+    elif [ "$percent" -gt 55 ] && [ "$percent" -le 65 ]; then
+      echo "󰁿";
+    elif [ "$percent" -gt 65 ] && [ "$percent" -le 75 ]; then
+      echo "󰂀";
+    elif [ "$percent" -gt 75 ] && [ "$percent" -le 85 ]; then
+      echo "󰂁";
+    elif [ "$percent" -gt 85 ] && [ "$percent" -le 96 ]; then
+      echo "󰂂";
+    else
+      echo "󰁹";
     fi
   fi
 }
@@ -136,7 +170,7 @@ show_record(){
 
 get_light() {
   L=$(printf '%.0f' "$(xbacklight -get)")
-  echo "ﯦ $L"
+  echo "ﯦ $L%"
 }
 
 print_wifi(){
