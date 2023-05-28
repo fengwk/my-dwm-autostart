@@ -5,6 +5,9 @@ script_dir=$(dirname $(readlink -f $0))
 # for java application
 wmname LG3D
 
+# set default laptop xbacklight
+xbacklight -set 70
+
 # auto suspend
 # killall -q xautolock
 # while pgrep -u $UID -x xautolock >/dev/null; do sleep 1; done
@@ -69,9 +72,17 @@ xfce4-power-manager &
 # xfce4-volumed-pulse &
 
 # parcellite
-killall -q parcellite
-while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
-parcellite &
+# killall -q parcellite
+# while pgrep -u $UID -x parcellite >/dev/null; do sleep 1; done
+# parcellite &
+
+# gpaste
+# gpaste-client start
+
+# clipster
+killall -q clipster
+while pgrep -u $UID -x clipster >/dev/null; do sleep 1; done
+clipster -d &
 
 # clash for windows
 killall -q /opt/clash-for-windows-chinese/cfw

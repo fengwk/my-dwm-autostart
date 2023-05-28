@@ -2,9 +2,6 @@
 
 script_dir=$(dirname $(readlink -f $0))
 
-# for java application
-wmname LG3D
-
 # auto suspend
 #killall -q xautolock
 
@@ -42,10 +39,16 @@ killall -q xfce4-power-manager
 # killall -q xfce4-volumed-pulse
 
 # parcellite
-killall -q parcellite
+# killall -q parcellite
 
-# clash for windows
-killall -q /opt/clash-for-windows-chinese/cfw
+# gpaste
+# killall -q gpaste-daemon
+
+# clipster
+killall -q clipster
+
+# parcellite
+# killall -q parcellite
 
 # optimus
 # killall optimus-manager-qt

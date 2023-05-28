@@ -91,28 +91,6 @@ get_battery_charging_status() {
     else
       echo "";
     fi
-
-    if [ "$percent" -le 15 ]; then
-      echo "󰁺";
-    elif [ "$percent" -gt 15 ] && [ "$percent" -le 25 ]; then
-      echo "󰁻";
-    elif [ "$percent" -gt 25 ] && [ "$percent" -le 35 ]; then
-      echo "󰁼";
-    elif [ "$percent" -gt 35 ] && [ "$percent" -le 45 ]; then
-      echo "󰁽";
-    elif [ "$percent" -gt 45 ] && [ "$percent" -le 55 ]; then
-      echo "󰁾";
-    elif [ "$percent" -gt 55 ] && [ "$percent" -le 65 ]; then
-      echo "󰁿";
-    elif [ "$percent" -gt 65 ] && [ "$percent" -le 75 ]; then
-      echo "󰂀";
-    elif [ "$percent" -gt 75 ] && [ "$percent" -le 85 ]; then
-      echo "󰂁";
-    elif [ "$percent" -gt 85 ] && [ "$percent" -le 96 ]; then
-      echo "󰂂";
-    else
-      echo "󰁹";
-    fi
   else
     if [ "$percent" -le 15 ]; then
       echo "󰁺";
