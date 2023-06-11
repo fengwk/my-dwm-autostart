@@ -47,6 +47,9 @@ killall -q xfce4-power-manager
 # clipster
 killall -q clipster
 
+# clash-for-windows-chinese
+# killall -q /opt/clash-for-windows-chinese/cfw
+
 # parcellite
 # killall -q parcellite
 

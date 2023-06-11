@@ -85,10 +85,10 @@ while pgrep -u $UID -x clipster >/dev/null; do sleep 1; done
 clipster -d &
 
 # clash for windows
-killall -q /opt/clash-for-windows-chinese/cfw
-while pgrep -u $UID -x /opt/clash-for-windows-chinese/cfw >/dev/null; do sleep 1; done
-sleep 2.5 # 迟启动调整托盘图标出现位置
-/opt/clash-for-windows-chinese/cfw &
+# killall -q /opt/clash-for-windows-chinese/cfw
+# while pgrep -u $UID -x /opt/clash-for-windows-chinese/cfw >/dev/null; do sleep 1; done
+# sleep 2.5 # 迟启动调整托盘图标出现位置
+# /opt/clash-for-windows-chinese/cfw &
 
 # optimus
 # killall optimus-manager-qt
