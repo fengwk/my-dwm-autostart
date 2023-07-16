@@ -2,12 +2,6 @@
 
 script_dir=$(dirname $(readlink -f $0))
 
-# auto suspend
-#killall -q xautolock
-
-# monitor
-#killall -q ${script_dir}/monitor-detection.sh
-
 # fcitx5
 killall -q fcitx5
 
@@ -31,6 +25,9 @@ killall -q nm-applet
 
 # wpa_supplicant
 # sudo killall -q wpa_supplicant
+
+# powerkit
+# killall -q powerkit
 
 # power
 killall -q xfce4-power-manager

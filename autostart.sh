@@ -6,17 +6,7 @@ script_dir=$(dirname $(readlink -f $0))
 wmname LG3D
 
 # set default laptop xbacklight
-xbacklight -set 70
-
-# auto suspend
-# killall -q xautolock
-# while pgrep -u $UID -x xautolock >/dev/null; do sleep 1; done
-# xautolock -time 10 -locker 'systemctl suspend' -nowlocker 'systemctl suspend' -detectsleep &
-
-# monitor
-# killall -q ${script_dir}/monitor-detection.sh
-# while pgrep -u $UID -x ${script_dir}/monitor-detection.sh >/dev/null; do sleep 1; done
-# ${script_dir}/monitor-detection.sh &
+sudo xbacklight -set 65
 
 # fcitx5
 killall -q fcitx5
@@ -60,6 +50,11 @@ nm-applet &
 # sudo killall -q wpa_supplicant
 # while pgrep -u $UID -x wpa_supplicant >/dev/null; do sleep 1; done
 # sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant-wlo1.conf -i wlo1 &
+
+# powerkit
+# killall -q powerkit
+# while pgrep -u $UID -x powerkit >/dev/null; do sleep 1; done
+# powerkit &
 
 # power
 killall -q xfce4-power-manager
