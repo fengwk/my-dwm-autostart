@@ -26,9 +26,6 @@ killall -q nm-applet
 # wpa_supplicant
 # sudo killall -q wpa_supplicant
 
-# powerkit
-# killall -q powerkit
-
 # power
 killall -q xfce4-power-manager
 

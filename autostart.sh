@@ -8,6 +8,9 @@ wmname LG3D
 # set default laptop xbacklight
 sudo xbacklight -set 65
 
+# libinput-gestures-setup start
+libinput-gestures-setup restart
+
 # fcitx5
 killall -q fcitx5
 while pgrep -u $UID -x fcitx5 >/dev/null; do sleep 1; done
@@ -50,11 +53,6 @@ nm-applet &
 # sudo killall -q wpa_supplicant
 # while pgrep -u $UID -x wpa_supplicant >/dev/null; do sleep 1; done
 # sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant-wlo1.conf -i wlo1 &
-
-# powerkit
-# killall -q powerkit
-# while pgrep -u $UID -x powerkit >/dev/null; do sleep 1; done
-# powerkit &
 
 # power
 killall -q xfce4-power-manager
