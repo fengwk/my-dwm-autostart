@@ -32,13 +32,16 @@ killall -q dwm-status.sh
 while pgrep -u $UID -x dwm-status.sh >/dev/null; do sleep 1; done
 ${script_dir}/dwm-status.sh &
 
-# window render
-killall -q picom
-while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
-# 使透明穿透到桌面：--experimental-backends --transparent-clipping
-# picom -b --experimental-backends --transparent-clipping
-# picom -b
-picom --experimental-backends -b
+# composite
+# killall -q picom
+# while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
+# # 使透明穿透到桌面：--experimental-backends --transparent-clipping
+# # picom -b --experimental-backends --transparent-clipping
+# # picom -b
+# picom --experimental-backends -b
+killall -q compfy
+while pgrep -u $UID -x compfy >/dev/null; do sleep 1; done
+compfy -b
 
 # network
 killall -q nm-applet

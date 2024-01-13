@@ -12,7 +12,8 @@ killall -q /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 killall -q dwm-status.sh
 
 # window render
-killall -q picom
+# killall -q picom
+killall -q compfy
 
 # network
 killall -q nm-applet
