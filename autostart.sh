@@ -39,9 +39,6 @@ ${script_dir}/dwm-status.sh &
 # # picom -b --experimental-backends --transparent-clipping
 # # picom -b
 # picom --experimental-backends -b
-killall -q compfy
-while pgrep -u $UID -x compfy >/dev/null; do sleep 1; done
-compfy -b
 
 # network
 killall -q nm-applet
@@ -84,3 +81,8 @@ clipster -d &
 # while pgrep -u $UID -x birdtray >/dev/null; do sleep 1; done
 # # env -u QT_AUTO_SCREEN_SCALE_FACTOR birdtray &
 # birdtray &
+
+# 在最后启动compfy防止过早启动导致tray圆角排除无效问题
+killall -q compfy
+while pgrep -u $UID -x compfy >/dev/null; do sleep 1; done
+compfy -b

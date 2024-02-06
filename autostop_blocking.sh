@@ -13,7 +13,6 @@ killall -q dwm-status.sh
 
 # window render
 # killall -q picom
-killall -q compfy
 
 # network
 killall -q nm-applet
@@ -42,3 +41,5 @@ killall -q clipster
 # optimus-manager
 # https://github.com/Askannz/optimus-manager/issues/404
 # sudo /usr/bin/prime-switch
+
+killall -q compfy
