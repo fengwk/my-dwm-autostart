@@ -21,7 +21,7 @@ killall -q nm-applet
 # sudo killall -q wpa_supplicant
 
 # power
-killall -q xfce4-power-manager
+# killall -q xfce4-power-manager
 
 # clipster
 killall -q clipster

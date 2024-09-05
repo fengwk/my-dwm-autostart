@@ -51,9 +51,9 @@ nm-applet &
 # sudo wpa_supplicant -c /etc/wpa_supplicant/wpa_supplicant-wlo1.conf -i wlo1 &
 
 # power
-killall -q xfce4-power-manager
-while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
-xfce4-power-manager &
+# killall -q xfce4-power-manager
+# while pgrep -u $UID -x xfce4-power-manager >/dev/null; do sleep 1; done
+# xfce4-power-manager &
 
 # clipster
 killall -q clipster
