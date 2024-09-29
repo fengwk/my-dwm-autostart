@@ -110,8 +110,4 @@ fi
 # fi
 
 # 在最后启动compfy防止过早启动导致tray圆角排除无效问题
-if ! pgrep -u $UID -x compfy >/dev/null; then
-  killall -u $USER -q compfy
-  while pgrep -u $UID -x compfy >/dev/null; do sleep 1; done
-  compfy -b
-fi
+$script_dir/compositor.sh

@@ -166,6 +166,18 @@ old_received_bytes=$received_bytes
 old_transmitted_bytes=$transmitted_bytes
 old_time=$now
 
+script_dir=$(dirname $(readlink -f $0))
+process_sleep_time="$(date +%s)"
+process_sleep() {
+  if [ -f /tmp/last-sleep-time ]; then
+    last_sleep_time=$(cat /tmp/last-sleep-time)
+    if [ $last_sleep_time -gt $process_sleep_time ]; then
+      process_sleep_time=$last_sleep_time
+      $script_dir/compositor.sh
+    fi
+  fi
+}
+
 while true
 do
   # Calculates speeds
@@ -180,5 +192,9 @@ do
   old_received_bytes=$received_bytes
   old_transmitted_bytes=$transmitted_bytes
   old_time=$now
+
+  # 处理睡眠唤醒可能对dwm产生的问题
+  process_sleep
+
   sleep 1
 done
