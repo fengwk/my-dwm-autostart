@@ -7,9 +7,7 @@ wmname LG3D
 
 # set default laptop xbacklight
 # 使用此选项必须在sudor文件中将xbacklight设置为特权否则会因为要输入密码而卡死
-if sudo -l | grep -q xbacklight; then
-  sudo xbacklight -set 65
-fi
+xbacklight -set 65
 
 # libinput-gestures-setup start
 libinput-gestures-setup restart
@@ -28,10 +26,15 @@ if ! pgrep -u $UID -x fcitx5 >/dev/null; then
 fi
 
 # polkit-gnome
-if ! pgrep -u $UID -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null; then
-  killall -u $USER -q /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-  while pgrep -u $UID -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null; do sleep 1; done
-  /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+polkit_path="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+if [ ! -f "$polkit_path" ]; then
+  # for ubuntu
+  polkit_path="/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
+fi
+if ! pgrep -u $UID -x -f "$polkit_path" >/dev/null; then
+  killall -u $USER -q -f "$polkit_path"
+  while pgrep -u $UID -x -f "$polkit_path" >/dev/null; do sleep 1; done
+  "$polkit_path" &
 fi
 
 # status bar
