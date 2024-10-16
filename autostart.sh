@@ -7,7 +7,7 @@ wmname LG3D
 
 # set default laptop xbacklight
 # 使用此选项必须在sudor文件中将xbacklight设置为特权否则会因为要输入密码而卡死
-xbacklight -set 65
+xbacklight -set 70
 
 # libinput-gestures-setup start
 libinput-gestures-setup restart
