@@ -83,12 +83,12 @@ if ! pgrep -u $UID -x clipster >/dev/null; then
 fi
 
 # clash for windows
-# if ! pgrep -u $UID -x /opt/clash-for-windows-chinese/cfw >/dev/null; then
-#   killall -u $USER -q /opt/clash-for-windows-chinese/cfw
-#   while pgrep -u $UID -x /opt/clash-for-windows-chinese/cfw >/dev/null; do sleep 1; done
-#   sleep 3 # 迟启动调整托盘图标出现位置
-#   /opt/clash-for-windows-chinese/cfw &
-# fi
+if [ -n "$(ps -ef | grep clash-for-windows | grep -v grep)" ]; then
+  kill $(ps -ef | grep clash-for-windows | grep -v grep | awk '{print $2}' | xargs)
+  while [ -z "$(ps -ef | grep clash-for-windows | grep -v grep)" ]; do sleep 1; done
+fi
+sleep 1 # 迟启动调整托盘图标出现位置
+gtk-launch clash-for-windows.desktop
 
 # optimus
 # if ! pgrep -u $UID -x optimus-manager-qt >/dev/null; then
