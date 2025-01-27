@@ -83,9 +83,9 @@ if ! pgrep -u $UID -x clipster >/dev/null; then
 fi
 
 # clash for windows
-if [ -n "$(ps -ef | grep clash-for-windows | grep -v grep)" ]; then
-  kill $(ps -ef | grep clash-for-windows | grep -v grep | awk '{print $2}' | xargs)
-  while [ -z "$(ps -ef | grep clash-for-windows | grep -v grep)" ]; do sleep 1; done
+if [ -n "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; then
+  killall -q /opt/clash-for-windows-bin/cfw
+  while [ -z "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; do sleep 1; done
 fi
 sleep 1 # 迟启动调整托盘图标出现位置
 gtk-launch clash-for-windows.desktop

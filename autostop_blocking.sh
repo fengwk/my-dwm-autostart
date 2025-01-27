@@ -27,7 +27,7 @@ killall -q nm-applet
 killall -q clipster
 
 # clash-for-windows-chinese
-# killall -q /opt/clash-for-windows-chinese/cfw
+killall -q /opt/clash-for-windows-bin/cfw
 
 # optimus
 # killall optimus-manager-qt
