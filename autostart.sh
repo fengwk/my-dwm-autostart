@@ -22,7 +22,8 @@ dwm-defaultwallpaper
 if ! pgrep -u $UID -x fcitx5 >/dev/null; then
   killall -u $USER -q fcitx5
   while pgrep -u $UID -x fcitx5 >/dev/null; do sleep 1; done
-  fcitx5 &
+  # fcitx5 &
+  gtk-launch org.fcitx.Fcitx5.desktop
 fi
 
 # polkit-gnome
