@@ -186,7 +186,7 @@ do
   vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
   #xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) $(print_wifi) [$(print_date)] "
-  xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) [$(print_date)] "
+  xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(print_vol) [$(print_date)] "
 
   # Update old values to perform new calculations
   old_received_bytes=$received_bytes
