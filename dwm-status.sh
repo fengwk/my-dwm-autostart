@@ -117,16 +117,19 @@ get_battery_charging_status() {
 }
 
 print_vol () {
-  ON=$(amixer get Master | tail -n1 | awk '{print $6}')
-  VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
-  if [ "$ON" = "[on]" ]; then
+  # ON=$(amixer get Master | tail -n1 | awk '{print $6}')
+  # VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+  BLUEZ_SINK='bluez_sink.90_F2_60_53_37_54.a2dp_sink'
+  ON=$(pactl get-sink-mute $BLUEZ_SINK|awk '{print $2}'|tr -d '\n')
+  VOL=$(pactl get-sink-volume $BLUEZ_SINK|awk '{print $5}'|tr -d '\n')
+  if [ "$ON" = "否" ]; then
     if [ "$VOL" -eq 0 ]; then
-      printf "婢 %s%%" "$VOL"
+      printf "婢 %s" "$VOL"
     else
-      printf "墳 %s%%" "$VOL"
+      printf "墳 %s" "$VOL"
     fi
   else
-    printf "婢 %s%%" "$VOL"
+    printf "婢 %s" "$VOL"
   fi
 }
 
@@ -186,7 +189,11 @@ do
   vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
 
   #xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) $(print_wifi) [$(print_date)] "
-  xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) [$(print_date)] "
+  # xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) [$(print_date)] "
+  xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(print_vol) [$(print_date)] "
+
+  # 避免设备重联导致速度被重置
+  xset r rate 250 40
 
   # Update old values to perform new calculations
   old_received_bytes=$received_bytes
@@ -196,5 +203,5 @@ do
   # 处理睡眠唤醒可能对dwm产生的问题
   process_sleep
 
-  sleep 1
+  sleep 0.5
 done
