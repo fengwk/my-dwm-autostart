@@ -176,7 +176,7 @@ process_sleep() {
     last_sleep_time=$(cat /tmp/last-sleep-time)
     if [ $last_sleep_time -gt $process_sleep_time ]; then
       process_sleep_time=$last_sleep_time
-      $script_dir/compositor.sh
+      picom -b
     fi
   fi
 }
