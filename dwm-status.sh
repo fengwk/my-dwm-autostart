@@ -116,14 +116,44 @@ get_battery_charging_status() {
   fi
 }
 
+# print_vol () {
+#   # ON=$(amixer get Master | tail -n1 | awk '{print $6}')
+#   # VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
+#   BLUEZ_SINK='bluez_sink.90_F2_60_53_37_54.a2dp_sink'
+#   ON=$(pactl get-sink-mute $BLUEZ_SINK|awk '{print $2}'|tr -d '\n')
+#   VOL=$(pactl get-sink-volume $BLUEZ_SINK|awk '{print $5}'|tr -d '\n')
+#   if [ "$ON" = "否" ]; then
+#     if [ "$VOL" -eq 0 ]; then
+#       printf "婢 %s" "$VOL"
+#     else
+#       printf "墳 %s" "$VOL"
+#     fi
+#   else
+#     printf "婢 %s" "$VOL"
+#   fi
+# }
+
+# pipewire
 print_vol () {
-  # ON=$(amixer get Master | tail -n1 | awk '{print $6}')
-  # VOL=$(amixer get Master | tail -n1 | sed -r "s/.*\[(.*)%\].*/\1/")
-  BLUEZ_SINK='bluez_sink.90_F2_60_53_37_54.a2dp_sink'
-  ON=$(pactl get-sink-mute $BLUEZ_SINK|awk '{print $2}'|tr -d '\n')
-  VOL=$(pactl get-sink-volume $BLUEZ_SINK|awk '{print $5}'|tr -d '\n')
-  if [ "$ON" = "否" ]; then
-    if [ "$VOL" -eq 0 ]; then
+  # 自动获取默认音频输出设备（推荐）
+  BLUEZ_SINK=$(pactl get-default-sink)
+  
+  # 或者手动指定设备（将下面的值替换为你的蓝牙设备ID）
+  # BLUEZ_SINK='bluez_sink.你的设备ID'
+  
+  # 检查设备是否存在
+  if ! pactl list sinks | grep -q "Name: $BLUEZ_SINK"; then
+    printf "无音频设备"
+    return 1
+  fi
+  
+  # 获取静音状态和音量（适配PipeWire的输出格式）
+  ON=$(pactl get-sink-mute "$BLUEZ_SINK" | awk '{print $2}')
+  VOL=$(pactl get-sink-volume "$BLUEZ_SINK" | awk '/Volume/ {print $5}')
+  
+  # 显示对应的图标和音量
+  if [ "$ON" = "no" ]; then  # PipeWire通常使用英文"no"表示未静音
+    if [ "$VOL" = "0%" ]; then
       printf "婢 %s" "$VOL"
     else
       printf "墳 %s" "$VOL"

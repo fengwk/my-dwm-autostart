@@ -24,3 +24,5 @@ killall -q clipster
 # killall -q /opt/clash-for-windows-bin/cfw
 
 killall -q picom
+
+kill $(ps -ef | grep linux-stt-input | grep python3 | head  -n 1 | awk '{print $2}')

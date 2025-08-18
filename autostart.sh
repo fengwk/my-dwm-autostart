@@ -55,10 +55,10 @@ if ! pgrep -u $UID -x clipster >/dev/null; then
 fi
 
 # clash for windows
-if [ -n "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; then
-  killall -q /opt/clash-for-windows-bin/cfw
-  while [ -z "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; do sleep 1; done
-fi
+# if [ -n "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; then
+#   killall -q /opt/clash-for-windows-bin/cfw
+#   while [ -z "$(ps -ef | grep -q /opt/clash-for-windows-bin/cfw | grep -v grep)" ]; do sleep 1; done
+# fi
 #sleep 1 # 迟启动调整托盘图标出现位置
 # gtk-launch clash-for-windows.desktop
 
@@ -66,3 +66,8 @@ fi
 killall -u $USER -q picom
 while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
 picom -b
+
+# linux stt input
+kill $(ps -ef | grep linux-stt-input | grep python3 | head  -n 1 | awk '{print $2}')
+while pgrep -u $UID -x linux-stt-input >/dev/null; do sleep 1; done
+linux-stt-input.sh
