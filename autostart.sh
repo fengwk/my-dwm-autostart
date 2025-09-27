@@ -27,22 +27,13 @@ if ! pgrep -u $UID -x fcitx5 >/dev/null; then
 fi
 
 # polkit-gnome
-polkit_path="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-if [ ! -f "$polkit_path" ]; then
-  # for ubuntu
-  polkit_path="/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
-fi
-if ! pgrep -u $UID -x -f "$polkit_path" >/dev/null; then
-  killall -u $USER -q -f "$polkit_path"
-  while pgrep -u $UID -x -f "$polkit_path" >/dev/null; do sleep 1; done
-  "$polkit_path" &
-fi
+$script_dir/wrapper/polkit.sh &
 
 # status bar
 if ! pgrep -u $UID -x dwm-status.sh >/dev/null; then
   killall -u $USER -q dwm-status.sh
   while pgrep -u $UID -x dwm-status.sh >/dev/null; do sleep 1; done
-  ${script_dir}/dwm-status.sh &
+  $script_dir/dwm-status.sh &
 fi
 
 # composite
@@ -56,10 +47,13 @@ fi
 # fi
 
 # network
-if ! pgrep -u $UID -x nm-applet >/dev/null; then
-  killall -u $USER -q nm-applet
-  while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
-  nm-applet &
+$script_dir/wrapper/nm-applet.sh &
+
+# blueman
+if ! pgrep -u $UID -x blueman-applet >/dev/null; then
+  killall -u $USER -q blueman-applet
+  while pgrep -u $UID -x blueman-applet >/dev/null; do sleep 1; done
+  blueman-applet &
 fi
 
 # wpa_supplicant
@@ -115,3 +109,6 @@ fi
 
 # 在最后启动compfy防止过早启动导致tray圆角排除无效问题
 $script_dir/compositor.sh
+
+
+# /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
