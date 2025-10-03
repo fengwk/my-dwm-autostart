@@ -19,25 +19,23 @@ if ! pgrep -u $UID -x fcitx5 >/dev/null; then
 fi
 
 # polkit-gnome
-polkit_path="/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-if ! pgrep -u $UID -x -f "$polkit_path" >/dev/null; then
-  killall -u $USER -q "$polkit_path"
-  while pgrep -u $UID -x -f "$polkit_path" >/dev/null; do sleep 1; done
-  "$polkit_path" &
-fi
+$script_dir/wrapper/polkit.sh &
 
 # status bar
 if ! pgrep -u $UID -x dwm-status.sh >/dev/null; then
   killall -u $USER -q dwm-status.sh
   while pgrep -u $UID -x dwm-status.sh >/dev/null; do sleep 1; done
-  ${script_dir}/dwm-status.sh &
+  $script_dir/dwm-status.sh &
 fi
 
 # network
-if ! pgrep -u $UID -x nm-applet >/dev/null; then
-  killall -u $USER -q nm-applet
-  while pgrep -u $UID -x nm-applet >/dev/null; do sleep 1; done
-  nm-applet &
+$script_dir/wrapper/nm-applet.sh &
+
+# blueman
+if ! pgrep -u $UID -x blueman-applet >/dev/null; then
+  killall -u $USER -q blueman-applet
+  while pgrep -u $UID -x blueman-applet >/dev/null; do sleep 1; done
+  blueman-applet &
 fi
 
 # blueman
@@ -68,6 +66,6 @@ while pgrep -u $UID -x picom >/dev/null; do sleep 1; done
 picom -b
 
 # linux stt input
-kill $(ps -ef | grep linux-stt-input | grep python3 | head  -n 1 | awk '{print $2}')
-while pgrep -u $UID -x linux-stt-input >/dev/null; do sleep 1; done
-linux-stt-input.sh
+# kill $(ps -ef | grep linux-stt-input | grep python3 | head  -n 1 | awk '{print $2}')
+# while pgrep -u $UID -x linux-stt-input >/dev/null; do sleep 1; done
+# linux-stt-input.sh

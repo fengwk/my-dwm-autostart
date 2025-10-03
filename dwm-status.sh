@@ -142,7 +142,7 @@ print_vol () {
   # BLUEZ_SINK='bluez_sink.你的设备ID'
   
   # 检查设备是否存在
-  if ! pactl list sinks | grep -q "Name: $BLUEZ_SINK"; then
+  if ! pactl list sinks | grep -q "$BLUEZ_SINK"; then
     printf "无音频设备"
     return 1
   fi
@@ -152,7 +152,7 @@ print_vol () {
   VOL=$(pactl get-sink-volume "$BLUEZ_SINK" | awk '/Volume/ {print $5}')
   
   # 显示对应的图标和音量
-  if [ "$ON" = "no" ]; then  # PipeWire通常使用英文"no"表示未静音
+  if [ "$ON" = "no" ] || [ "$ON" = "否" ]; then  # PipeWire通常使用英文"no"表示未静音
     if [ "$VOL" = "0%" ]; then
       printf "婢 %s" "$VOL"
     else
