@@ -133,6 +133,27 @@ get_battery_charging_status() {
 #   fi
 # }
 
+# 自动切换音频设备：蓝牙设备优先，否则使用其他可用设备
+auto_switch_sink() {
+  current_sink=$(pactl get-default-sink)
+  
+  # 优先检测任何蓝牙设备（bluez_output 开头）
+  bluetooth_sink=$(pactl list sinks short | grep "bluez_output" | head -n1 | awk '{print $2}')
+  
+  if [ -n "$bluetooth_sink" ]; then
+    # 蓝牙设备可用，切换到蓝牙
+    if [ "$current_sink" != "$bluetooth_sink" ]; then
+      pactl set-default-sink "$bluetooth_sink"
+    fi
+  elif echo "$current_sink" | grep -q "bluez_output"; then
+    # 当前是蓝牙但已断开，回退到其他可用设备
+    fallback_sink=$(pactl list sinks short | grep -v "bluez_output" | grep -i "usb" | head -n1 | awk '{print $2}')
+    if [ -n "$fallback_sink" ]; then
+      pactl set-default-sink "$fallback_sink"
+    fi
+  fi
+}
+
 # pipewire
 print_vol () {
   # 自动获取默认音频输出设备（推荐）
@@ -217,6 +238,9 @@ do
   get_bytes
   vel_recv=$(get_velocity $received_bytes $old_received_bytes $now)
   vel_trans=$(get_velocity $transmitted_bytes $old_transmitted_bytes $now)
+
+  # 自动切换音频设备：蓝牙优先
+  auto_switch_sink
 
   #xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) $(print_wifi) [$(print_date)] "
   # xsetroot -name "  $(print_mem)  $vel_recv  $vel_trans $(get_light) $(print_vol) $(print_bat) [$(print_date)] "
