@@ -13,7 +13,7 @@ xbacklight -set 70
 libinput-gestures-setup restart
 
 # monitor
-dwm-switchmonitor 1
+dwm-switchmonitor
 
 # wallpaper
 dwm-defaultwallpaper
